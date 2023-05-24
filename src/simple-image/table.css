@@ -1,0 +1,23 @@
+.table_ch th,
+td {
+    border: 1px solid #dfe2e5;
+}
+
+.table_ch {
+    border-collapse: collapse;
+}
+
+.table_ch tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+.table_ch tr pre {
+    min-width: 100px;
+    font-size: 20px;
+    text-align: center;
+    border: 0;
+    outline: 0;
+    white-space: break-spaces;
+    max-width: 300px;
+    padding: 5px;
+}

@@ -1,0 +1,11 @@
+.preContainer{
+    /* width: 400px; */
+    height: auto;
+    /* background-color: rgba(red, rgb(81, 239, 81), blue, .3); */
+}
+.preContainer code {
+    line-height: 30px;
+    font-size: 20px;
+    padding: 20px;
+    display: block;
+}

@@ -7,11 +7,21 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.27.0",
+    "@editorjs/embed": "^2.5.3",
+    "@editorjs/header": "^2.7.0",
+    "@editorjs/list": "^1.8.0",
     "core-js": "^3.8.3",
+    "prismjs": "^1.29.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {
+    "@editorjs/checklist": "^1.5.0",
+    "@editorjs/link": "^2.5.0",
+    "@editorjs/quote": "^2.5.0",
+    "@editorjs/raw": "^2.4.0",
+    "@editorjs/simple-image": "^1.5.1",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
