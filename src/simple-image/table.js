@@ -15,6 +15,7 @@ class Table {
       render(){
         this.table = document.createElement("table");
         this.table.classList.add('table_ch')
+        this.api.toolbar.open()
         let row = this.config?.row || 6; let col = this.config?.col || 3;
         for (let i = 0; i < row; i++) {
             let contentRow = document.createElement("tr");
@@ -31,6 +32,9 @@ class Table {
             }
             this.table.appendChild(contentRow)
         }
+        this.table.addEventListener('click', () => {
+          this.api.tooltip.show(this.table, '123');
+        })
         document.body.appendChild(this.table);
         return this.table;
       }

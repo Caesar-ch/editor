@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import EditorJS from '@editorjs/editorjs';
 
 const Header = require('@editorjs/header');
 const LinkTool = require('@editorjs/link');
@@ -10,6 +9,8 @@ const Checklist = require('@editorjs/checklist');
 import List from '@editorjs/list';
 import Embed from '@editorjs/embed';
 const Quote = require('@editorjs/quote');
+// import SimpleImage from './simple-image.js'
+import EditorJS from '@editorjs/editorjs';
 const editor = new EditorJS({
   /** 
    * Id of Element that should contain the Editor 
@@ -57,23 +58,11 @@ const editor = new EditorJS({
     quote: Quote,
   },
   autofocus: true,
-  placeholder: 'Let`s write an awesome story!',
-  logLevel: 'ERROR',
-  /** 
-   * Available Tools list. 
-   * Pass Tool's class or Settings object for each Tool you want to use 
-   */ 
-  onReady: () => {
-    console.log('Editor.js is ready to work__onReady!')
-  },
-  onChange: (api, event) => {
-    console.log('Now I know that Editor\'s content changed!', api, event)
-  }
 })
-editor.isReady.then(() => {
-  console.log('Editor.js is ready to work__isReady!')
-    /** Do anything you need after editor initialization */
-}).catch((reason) => {
-  console.log(`Editor.js initialization failed because of ${reason}`)
-});
-createApp(App).use(router).mount('#app')
+
+const app = createApp(App)
+app.config.errorHandler = function(err) {
+  console.log("global", err);
+  message.error("出错了");
+};
+app.use(router).mount('#app')

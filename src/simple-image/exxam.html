@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Editor.js Example</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script src="simple-image.js"></script>
+    <script src="code.js"></script>
+    <script src="table.js"></script>
+    <script src="make-tool.js"></script>
+    <link href="simple-image.css" rel="stylesheet" />
+    <link href="make-tool.css" rel="stylesheet" />
+    <link href="code.css" rel="stylesheet" />
+    <link href="table.css" rel="stylesheet" />
+    <style>
+        /* #editorjs {
+            width: 500px;
+            height: 500px;
+            border: 1px solid red;
+        } */
+        #editor {
+  position: relative;
+}
+
+#editor .codex-editor__redactor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+    </style>
+  </head>
+  <body>
+    <div id="editorjs"></div>
+    <div id="static-toolbar"></div>
+    <div id="inline-toolbar"></div>
+    <script>
+      const editor = new EditorJS({
+        holder: 'editorjs',
+        tools: {
+        image: {
+          class: SimpleImage,
+          inlineToolbar: true, //link, bold, italic
+          config: {
+            placeholder: 'Paste image URsssL'
+          },
+        },
+        header: {
+          class: Header,
+          shortcut: 'CMD+SHIFT+H',
+          "data": {
+            "text": "Why Telegram is the best messenger",
+            "level": 2
+          },
+          inlineToolbar: true,
+          config: {
+            placeholder: 'header for H2 H3 H4',
+            levels: [2, 3, 4],
+            defaultLevel: 3,
+          }
+        },
+        maker: MarkerTool,
+        code: Code,
+        table: {
+          class: Table,
+          inlineToolbar: ['bold'],
+          config: {
+            rol: 4,
+            col: 6,
+          }
+        }
+      },
+      toolbars: {
+          inline: [{
+            toolbox: '#inline-toolbar',
+            tools: {
+              header: {
+                class: Header,
+                inlineToolbar: true,
+              },
+              list: {
+                class: Code,
+                inlineToolbar: true,
+              },
+            },
+          }],
+          static: {
+            toolbar: '#static-toolbar',
+            items: ['#image', '#table'],
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

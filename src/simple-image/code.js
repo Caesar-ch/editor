@@ -126,9 +126,11 @@ class Code {
           console.log('代码高亮');
           Prism.highlightAll();
         })
-        // input.addEventListener('paste', (event) => {
-        //     this._createImage(event.clipboardData.getData('text'));
-        //   });
+
+          // this.code.addEventListener('input', (event) => {
+          //   // this._createImage(event.clipboardData.getData('text'));
+          //  this.api.tooltip.show(this.per);
+          // });
         return this.pre;
       }
       _createImage(url, captionText){

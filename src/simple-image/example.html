@@ -1,77 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
-    <script src="simple-image.js"></script> 
-    <script src="code.js"></script> 
-    <script src="table.js"></script> 
-    <script src="make-tool.js"></script>
-    <link href="simple-image.css" rel="stylesheet"/>
-    <link href="make-tool.css" rel="stylesheet"/>
-    <link href="code.css" rel="stylesheet"/>
-    <link href="table.css" rel="stylesheet"/>
-</head>
-<body>
-    <div id="editorjs"></div>
-    <button id="save-button">Save</button>
-    <pre id="output"></pre>
-    <script>
-        const editor = new EditorJS({
-          autofocus: true,
-          inlineToolbar: true,
-          tools: {
-            image: {
-              class: SimpleImage,
-              inlineToolbar: true, //link, bold, italic
-              config: {
-                placeholder: 'Paste image URsssL'
-              },
-            },
-            maker: MarkerTool,
-            code: Code,
-            table: {
-              class: Table,
-              inlineToolbar: ['bold'],
-              config: {
-                rol: 4,
-                col: 6,
-              }
-            }
-          },
-          // 这里的数据可以被插件直接读取并进行操作
-          data: {
-            time: 1552744582955,
-            blocks: [ 
-              { 
-                type: "image",
-                data: {
-                  url: "https://tse2-mm.cn.bing.net/th/id/OIP-C.O1CyeKs-ES3CZTfWbTjA2gHaEo?pid=ImgDet&rs=1",
-                  caption: 'Here is a caption field',
-                  withBorder: false,
-                  withBackground: true,
-                  stretched: false
-                }
-              }
-            ],
-            version: "2.11.10"
-          }
-        });
 
-        const saveButton = document.getElementById('save-button');
-        const output = document.getElementById('output');
-        
-        saveButton.addEventListener('click', () => {
-          editor.save().then( savedData => {
-            output.innerHTML = JSON.stringify(savedData, null, 4);
-          })
-        })
-    </script>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+  <script src="simple-image.js"></script>
+  <script src="code.js"></script>
+  <script src="table.js"></script>
+  <script src="make-tool.js"></script>
+  <link href="simple-image.css" rel="stylesheet" />
+  <link href="make-tool.css" rel="stylesheet" />
+  <link href="code.css" rel="stylesheet" />
+  <link href="table.css" rel="stylesheet" />
+  <style>
+    #editorjs {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .ce-popover--opened {
+      opacity: 1 !important;
+      padding: 10px !important;
+      max-height: 400px !important;
+      pointer-events: auto !important;
+      -webkit-animation: panelShowing 0s ease !important;
+      animation: panelShowing .0s ease !important;
+      border: 1px solid black;
+      /* position: inherit; */
+      width: auto !important;
+      width: 100%;
+    }
+
+    .ce-popover__items {
+      display: flex;
+    }
+
+    .ce-popover {
+      display: block;
+      opacity: 1;
+      max-height: 200px;
+      width: auto;
+      padding: 10px;
+      border: 1px solid black;
+      margin-top: -129px;
+      z-index: 9999;
+      position: fixed;
+      top: 140px;
+      left: 340px;
+    }
+
+    .ce-toolbar__plus {
+      display: none;
+    }
+
+    .ce-popover__search {
+      display: none;
+    }
+    #static-toolbar .ce-popover {
+      z-index: 1;
+    }
+    .ce-toolbox .ce-popover {
+      z-index: 1000 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="module-selector-container" style="height: 70px;"></div>
+  <hr>
+  <div id="static-toolbar"></div>
+  <div id="editorjs"></div>
+  <button id="save-button">Save</button>
+  <pre id="output"></pre>
+  <div class="box"></div>
+  <script>
+    window.onload = () => {
+      document.querySelector('.codex-editor').classList.add('codex-editor--toolbox-opened')
+      document.querySelector('.ce-toolbar').classList.add('ce-toolbar--opened')
+      document.querySelector('.ce-toolbar__actions').classList.add('ce-toolbar__actions--opened')
+      // document.querySelector('.ce-toolbar__plus').click()
+      document.querySelector('.ce-popover__overlay').classList.remove('codex-editor--toolbox-opened')
+      document.querySelector('.ce-popover').classList.add('ce-popover--opened')
+      const elementA = document.getElementsByClassName('ce-popover');
+      elementA[0].addEventListener('click', () => {
+        console.log('ce-popover');
+        document.querySelector('.ce-popover__overlay').classList.remove('codex-editor--toolbox-opened')
+        document.querySelector('.codex-editor').classList.add('codex-editor--toolbox-opened')
+      document.querySelector('.ce-toolbar').classList.add('ce-toolbar--opened')
+      })
+      document.addEventListener('click', () => {
+        console.log('element');
+        elementA[0].classList.add('ce-popover--opened');
+        document.querySelector('.ce-popover__overlay').classList.remove('codex-editor--toolbox-opened')
+        document.querySelectorAll('.ce-popover')[1].classList.add('ce-popover--opened')
+        document.querySelector('.codex-editor').classList.add('codex-editor--toolbox-opened')
+      document.querySelector('.ce-toolbar').classList.add('ce-toolbar--opened')
+      })
+      const contentA = elementA[0].cloneNode(true);
+      const elementB = document.getElementById('static-toolbar')
+      elementB.appendChild(contentA)
+      const editorjs_box = document.querySelector('.editorjs_box')
+      const container = document.getElementsByClassName('codex-editor__redactor');
+      const codex = document.querySelector('.codex-editor')
+      document.querySelector('.ce-popover__overlay')
+      codex.addEventListener('click', () => {
+        console.log('bluer');
+        document.querySelector('.ce-popover__overlay').classList.remove('codex-editor--toolbox-opened')
+        document.querySelector('.codex-editor').classList.add('codex-editor--toolbox-opened')
+      document.querySelector('.ce-toolbar').classList.add('ce-toolbar--opened')
+      })
+      const editors = document.querySelector('.codex-editor-overlay')
+      editors.addEventListener('click', () => {
+        console.log('editors');
+      })
+    }
+  </script>
+  <script>
+    const editor = new EditorJS({
+      autofocus: true,
+      inlineToolbar: true,
+      tools: {
+        image: {
+          class: SimpleImage,
+          inlineToolbar: true, //link, bold, italic
+          config: {
+            placeholder: 'Paste image URsssL'
+          },
+        },
+        header: {
+          class: Header,
+          shortcut: 'CMD+SHIFT+H',
+          "data": {
+            "text": "Why Telegram is the best messenger",
+            "level": 2
+          },
+          inlineToolbar: true,
+          config: {
+            placeholder: 'header for H2 H3 H4',
+            levels: [2, 3, 4],
+            defaultLevel: 3,
+          }
+        },
+        maker: MarkerTool,
+        code: Code,
+        table: {
+          class: Table,
+          inlineToolbar: ['bold'],
+          config: {
+            rol: 4,
+            col: 6,
+          }
+        }
+      },
+      // 这里的数据可以被插件直接读取并进行操作
+      data: {
+        time: 1552744582955,
+        blocks: [
+          {
+            type: "image",
+            data: {
+              url: "https://tse2-mm.cn.bing.net/th/id/OIP-C.O1CyeKs-ES3CZTfWbTjA2gHaEo?pid=ImgDet&rs=1",
+              caption: 'Here is a caption field',
+              withBorder: false,
+              withBackground: true,
+              stretched: false
+            }
+          }
+        ],
+        version: "2.11.10"
+      },
+      toolbars: {
+        static: {
+          toolbar: '#static-toolbar',
+          items: ['#image', '#table', '#code'],
+        },
+      },
+      // onReady: () => {
+      //   // 将模块选择器插入到容器中
+      //   const inlineToolbarWrapper = document.querySelector('.ce-popover')
+      //   console.log('ccc',moduleSelectorContainer, inlineToolbarWrapper );
+      //   if (inlineToolbarWrapper) {
+      //     moduleSelectorContainer.appendChild(inlineToolbarWrapper);
+      //   }
+
+      //   // this.isEditing = true;
+      // }
+    });
+    const saveButton = document.getElementById('save-button');
+    const output = document.getElementById('output');
+    const cp = document.querySelectorAll('.cp-popover');
+    saveButton.addEventListener('click', () => {
+      editor.save().then(savedData => {
+        output.innerHTML = JSON.stringify(savedData, null, 4);
+      })
+    })
+  </script>
 </body>
+
 </html>
